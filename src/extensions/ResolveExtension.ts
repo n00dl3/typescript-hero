@@ -7,6 +7,7 @@ import {TshCommand} from '../models/TshCommand';
 import {TsDefaultImport, TsExternalModuleImport, TsImport, TsNamedImport, TsNamespaceImport, TsStringImport} from '../models/TsImport';
 import {TsResolveSpecifier} from '../models/TsResolveSpecifier';
 import {TsResolveFileParser} from '../parser/TsResolveFileParser';
+import {ResolveCodeActionProvider} from '../provider/ResolveCodeActionProvider';
 import {RESOLVE_TRIGGER_CHARACTERS, ResolveCompletionItemProvider} from '../provider/ResolveCompletionItemProvider';
 import {ResolveQuickPickProvider} from '../provider/ResolveQuickPickProvider';
 import {Logger, LoggerFactory} from '../utilities/Logger';
@@ -44,7 +45,8 @@ export class ResolveExtension extends BaseExtension {
         private pickProvider: ResolveQuickPickProvider,
         private config: ExtensionConfig,
         private parser: TsResolveFileParser,
-        completionProvider: ResolveCompletionItemProvider) {
+        completionProvider: ResolveCompletionItemProvider,
+        actionProvider: ResolveCodeActionProvider) {
         super();
 
         this.logger = loggerFactory('ResolveExtension');
@@ -52,7 +54,10 @@ export class ResolveExtension extends BaseExtension {
         context.subscriptions.push(vscode.commands.registerTextEditorCommand('typescriptHero.resolve.addImport', () => this.addImport()));
         context.subscriptions.push(vscode.commands.registerTextEditorCommand('typescriptHero.resolve.organizeImports', () => this.organizeImports()));
         context.subscriptions.push(vscode.commands.registerCommand('typescriptHero.resolve.rebuildCache', () => this.refreshCache()));
+
         //context.subscriptions.push(vscode.languages.registerCompletionItemProvider(TYPESCRIPT, completionProvider, ...RESOLVE_TRIGGER_CHARACTERS));
+        context.subscriptions.push(vscode.languages.registerCodeActionsProvider(TYPESCRIPT, actionProvider));
+
         context.subscriptions.push(this.statusBarItem);
         context.subscriptions.push(this.fileWatcher);
 

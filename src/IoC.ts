@@ -6,6 +6,7 @@ import {RestartDebuggerExtension} from './extensions/RestartDebuggerExtension';
 import {ResolveItemFactory} from './factories/ResolveItemFactory';
 import {TsResolveFileParser} from './parser/TsResolveFileParser';
 import {GuiProvider} from './provider/GuiProvider';
+import {ResolveCodeActionProvider} from './provider/ResolveCodeActionProvider';
 import {ResolveCompletionItemProvider} from './provider/ResolveCompletionItemProvider';
 import {ResolveQuickPickProvider} from './provider/ResolveQuickPickProvider';
 import {TypeScriptHero} from './TypeScriptHero';
@@ -19,6 +20,7 @@ injector.bind(TypeScriptHero).to(TypeScriptHero).inSingletonScope();
 injector.bind(ExtensionConfig).to(ExtensionConfig).inSingletonScope();
 
 injector.bind(ResolveQuickPickProvider).to(ResolveQuickPickProvider).inSingletonScope();
+injector.bind(ResolveCodeActionProvider).to(ResolveCodeActionProvider).inSingletonScope();
 injector.bind(ResolveCompletionItemProvider).to(ResolveCompletionItemProvider).inSingletonScope();
 injector.bind(GuiProvider).to(GuiProvider).inSingletonScope();
 
